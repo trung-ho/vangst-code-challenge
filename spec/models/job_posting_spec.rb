@@ -51,8 +51,10 @@ RSpec.describe JobPosting, type: :model do
         job_posting.errors.messages[:number_of_workers].last
       ).to eq "must be less than or equal to 100"
     end
+  end
 
-    it "return true when all informations are valid" do
+  describe "#create" do
+    it "adding new job_posting when all informations are valid" do
       job_posting = JobPosting.new(name: 'Job name', 
         description: 'Job description',
         number_of_workers: 10)
