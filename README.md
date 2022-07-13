@@ -1,24 +1,51 @@
-# README
+# GENERAL
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is Trung submission for Vangst code challenge
 
-Things you may want to cover:
+If you have any questions or concern, please reach me at `trunghdm@gmail.com`
 
-* Ruby version
+## Schema
 
-* System dependencies
+This app has 2 tables `job_postings` and `applicants`. `job_posting` has many `applicants` and `applicant` belongs to 1 `job_posting`
 
-* Configuration
+`job_postings.name`, `job_postings.description` and `job_postings.number_of_workers` are required
 
-* Database creation
+`applicants.name`, `applicants.email` are required, `applicants.cover_letter` is optional
 
-* Database initialization
+## How to run
 
-* How to run the test suite
+### Setup
+CD to project
 
-* Services (job queues, cache servers, search engines, etc.)
+Install rails `7.0.3` in your machine
 
-* Deployment instructions
+Run these command line
 
-* ...
+```
+bundle
+rake db:create
+rake db:migrate
+```
+
+### Script
+Run the script `rake job_posting:add_applicants` to create job posting and apply to it
+
+It should return something like
+
+```
+Apply to job successfull, applicant id is: 15
+Apply to job successfull, applicant id is: 16
+Apply to job successfull, applicant id is: 17
+Apply to job successfull, applicant id is: 18
+Apply to job successfull, applicant id is: 19
+Now we keep adding more applicant
+Cannot add more applicant because of job_posting is full of candidates
+```
+
+You can change number of worker at `app/lib/tasks/create_job_posting_and_add_applicants.rake`
+
+### Testcases
+Run `rspec` to see all testcases.
+
+
+
