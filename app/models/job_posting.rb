@@ -1,4 +1,6 @@
 class JobPosting < ActiveRecord::Base
+  has_many :applicants
+
   validates :name, presence: true, allow_nil: false
   validates :description, presence: true, allow_nil: false
 
