@@ -5,7 +5,7 @@ RSpec.describe Applicant, type: :model do
     @job_posting = JobPosting.create(
       name: 'Job name',
       description: 'Job description', 
-      number_of_workers: 1 )
+      number_of_workers: 3)
   end
 
   describe "#validate" do
@@ -51,6 +51,21 @@ RSpec.describe Applicant, type: :model do
       expect {
         applicant.save
       }.to change(Applicant, :count).by(1)
+    end
+
+    context "when number of applicants exceed number of workers needed" do
+      it 'return error' do
+        (1..@job_posting.number_of_workers).each do |count|
+          @job_posting.applicants.create name: 'John', email: 'user@example.com'
+        end
+
+        expect(@job_posting.applicants.count).to eq @job_posting.number_of_workers
+        
+        exceed_applicant = @job_posting.applicants.create name: 'John', email: 'user@example.com'
+        expect(
+          exceed_applicant.errors.messages[:job_posting].last
+        ).to eq "is full of candidates"
+      end
     end
   end
 end
