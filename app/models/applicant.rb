@@ -8,8 +8,10 @@ class Applicant < ActiveRecord::Base
   private
 
   def check_number_of_candidates
-    if job_posting && job_posting.applicants.count == job_posting.number_of_workers
-      errors.add(:job_posting, 'is full of candidates') 
+    if job_posting
+      job_posting.with_lock do
+        errors.add(:job_posting, 'is full of candidates') if job_posting.applicants.count == job_posting.number_of_workers
+      end
     end
   end
 end
